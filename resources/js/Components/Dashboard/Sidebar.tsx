@@ -14,7 +14,7 @@ interface MenuItem {
 export default function Sidebar({ isOpen }: SidebarProps) {
   const menuItems: MenuItem[] = [
     { name: 'Dashboard', icon: 'fas fa-chart-pie', href: '/dashboard' },
-    { name: 'Jobs', icon: 'fas fa-users', href: '/users' },
+    { name: 'Jobs', icon: 'fas fa-users', href: '/jobs' },
     { name: 'Your Jobs', icon: 'fas fa-box', href: '/products' },
     { name: 'Report', icon: 'fas fa-shopping-cart', href: '/orders' }
   ];

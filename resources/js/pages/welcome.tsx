@@ -1,4 +1,3 @@
-// resources/js/Pages/Dashboard.tsx
 import { Head } from '@inertiajs/react';
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import StatCard from '@/Components/Dashboard/StatCard';
