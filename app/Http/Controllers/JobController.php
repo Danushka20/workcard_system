@@ -122,7 +122,7 @@ class JobController extends Controller
                 return response()->json($responseData, 201);
             }
 
-            return redirect()->route('jobs.show', $job->id)
+            return redirect()->route('jobs.index', ['newJob' => $job->id])
                 ->with('success', 'Job created successfully!');
 
         } catch (\Exception $e) {

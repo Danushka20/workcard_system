@@ -5,6 +5,7 @@ interface JobCardProps {
   department: string;
   status: 'pending' | 'in_progress' | 'completed' | 'on_hold';
   createdAt: string;
+  isNewlyAdded?: boolean; // New prop to indicate if this job was just added
   onHold: (id: number) => void;
   onComplete: (id: number) => void;
   onStart: (id: number) => void;
@@ -18,6 +19,7 @@ const JobCard = ({
   department, 
   status, 
   createdAt, 
+  isNewlyAdded = false, // Default to false
   onHold, 
   onComplete, 
   onStart, 
@@ -65,25 +67,52 @@ const JobCard = ({
 
   const statusInfo = statusConfig[status];
 
-  // Format the date
+  // Format the date with more detail including time
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    }).format(date);
+    const now = new Date();
+    const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
+    
+    // If created within last 24 hours, show detailed format
+    if (diffInHours < 24) {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      }).format(date);
+    } else {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      }).format(date);
+    }
+  };
+
+  // Check if timestamp should be highlighted (recent jobs)
+  const isRecentJob = () => {
+    const date = new Date(createdAt);
+    const now = new Date();
+    const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
+    return diffInHours < 24;
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+    <div className={`bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-200 ${isNewlyAdded ? 'ring-2 ring-blue-200 ring-opacity-50' : ''}`}>
       {/* Header with status and action buttons */}
       <div className="flex justify-between items-center p-4 border-b border-gray-100">
-        <div className="flex items-center">
+        <div className="flex items-center space-x-2">
           <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusInfo.color} flex items-center`}>
             {statusInfo.icon}
             {statusInfo.label}
           </span>
+          {isNewlyAdded && (
+            <span className="px-2 py-1 rounded-full text-xs font-bold bg-blue-500 text-white animate-pulse">
+              NEW
+            </span>
+          )}
         </div>
       </div>
       
@@ -156,8 +185,15 @@ const JobCard = ({
         </div>
         
         <div className="flex justify-between items-center text-xs text-gray-500">
-          <span>Created: {formatDate(createdAt)}</span>
-          <span>ID: #{id}</span>
+          <div className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className={isRecentJob() ? 'text-blue-600 font-medium' : ''}>
+              Created: {formatDate(createdAt)}
+            </span>
+          </div>
+          <span className="text-gray-400">ID: #{id}</span>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 // resources/js/Pages/Jobs/Index.tsx
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import JobCard from '@/Components/Jobs/JobCard';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { router } from '@inertiajs/react';
 
 interface Material {
@@ -27,8 +27,52 @@ interface Props {
 }
 
 const JobsPage = ({ jobs: initialJobs }: Props) => {
-  // Use the jobs passed from the backend as initial state
-  const [jobs, setJobs] = useState<Job[]>(initialJobs);
+  // Sort jobs by creation date (newest first) and use as initial state
+  const sortedJobs = initialJobs.sort((a, b) => 
+    new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+  const [jobs, setJobs] = useState<Job[]>(sortedJobs);
+  
+  // Track newly added jobs (jobs added after initial load)
+  const [newlyAddedJobs, setNewlyAddedJobs] = useState<Set<number>>(new Set());
+  
+  // Check if we just returned from creating a job and mark the newest as "NEW"
+  useEffect(() => {
+    // Check if there's a new job indicator in the URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const newJobId = urlParams.get('newJob');
+    
+    if (newJobId && jobs.length > 0) {
+      const jobId = parseInt(newJobId);
+      setNewlyAddedJobs(prev => new Set(prev).add(jobId));
+      
+      // Remove the parameter from URL
+      window.history.replaceState({}, '', window.location.pathname);
+      
+      // Auto-remove the "NEW" badge after 10 seconds
+      setTimeout(() => {
+        setNewlyAddedJobs(prev => {
+          const updated = new Set(prev);
+          updated.delete(jobId);
+          return updated;
+        });
+      }, 10000);
+    }
+  }, [jobs]);
+  
+  // Function to manually mark a job as newly added (for testing or other scenarios)
+  const markJobAsNew = (jobId: number) => {
+    setNewlyAddedJobs(prev => new Set(prev).add(jobId));
+    
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+      setNewlyAddedJobs(prev => {
+        const updated = new Set(prev);
+        updated.delete(jobId);
+        return updated;
+      });
+    }, 10000);
+  };
 
   const handleHoldJob = (jobId: number) => {
     console.log(`Holding job with ID: ${jobId}`);
@@ -38,10 +82,11 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
       status: 'on_hold'
     }, {
       onSuccess: () => {
-        // Update local state
-        setJobs(jobs.map(job => 
-          job.id === jobId ? { ...job, status: 'on_hold' } : job
-        ));
+        // Update local state and maintain newest-first sorting
+        const updatedJobs = jobs.map(job => 
+          job.id === jobId ? { ...job, status: 'on_hold' as const } : job
+        ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        setJobs(updatedJobs);
         alert(`Job ${jobId} put on hold!`);
       },
       onError: (errors) => {
@@ -59,10 +104,11 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
       status: 'completed'
     }, {
       onSuccess: () => {
-        // Update local state
-        setJobs(jobs.map(job => 
-          job.id === jobId ? { ...job, status: 'completed' } : job
-        ));
+        // Update local state and maintain newest-first sorting
+        const updatedJobs = jobs.map(job => 
+          job.id === jobId ? { ...job, status: 'completed' as const } : job
+        ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        setJobs(updatedJobs);
         alert(`Job ${jobId} marked as completed!`);
       },
       onError: (errors) => {
@@ -80,10 +126,11 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
       status: 'in_progress'
     }, {
       onSuccess: () => {
-        // Update local state
-        setJobs(jobs.map(job => 
-          job.id === jobId ? { ...job, status: 'in_progress' } : job
-        ));
+        // Update local state and maintain newest-first sorting
+        const updatedJobs = jobs.map(job => 
+          job.id === jobId ? { ...job, status: 'in_progress' as const } : job
+        ).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        setJobs(updatedJobs);
         alert(`Job ${jobId} started!`);
       },
       onError: (errors) => {
@@ -99,30 +146,57 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
     router.visit(`/jobs/${jobId}`);
   };
 
-  // Filter options
+  // Filter options with maintained sorting
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const filteredJobs = statusFilter === 'all' 
     ? jobs 
     : jobs.filter(job => job.status === statusFilter);
+    
+  // Keep the filtered jobs sorted by creation date (newest first)
+  const sortedFilteredJobs = filteredJobs.sort((a, b) => 
+    new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Job Management</h1>
-        <a href="/jobs/create">
-          <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            New Job
-          </button>
-        </a>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">Job Management</h1>
+          <p className="text-sm text-gray-600 mt-1">
+            Jobs are sorted by creation date (newest first) • 
+            <span className="inline-flex items-center ml-2">
+              <span className="w-2 h-2 bg-blue-500 rounded-full mr-1 animate-pulse"></span>
+              Recent jobs are highlighted
+            </span>
+          </p>
+        </div>
+        <button
+          onClick={() => router.visit('/jobs/create')}
+          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors flex items-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          New Job
+        </button>
       </div>
 
       {/* Filter Section */}
       <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-lg font-semibold text-gray-700 mb-3">Filter Jobs</h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg font-semibold text-gray-700">Filter Jobs</h2>
+          {/* Development/Testing: Uncomment to test NEW badge functionality */}
+          {/* {process.env.NODE_ENV === 'development' && (
+            <button
+              onClick={() => sortedFilteredJobs.length > 0 && markJobAsNew(sortedFilteredJobs[0].id)}
+              className="px-2 py-1 bg-orange-500 text-white text-xs rounded hover:bg-orange-600"
+              title="Test: Mark first job as NEW"
+            >
+              Test NEW Badge
+            </button>
+          )} */}
+        </div>
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setStatusFilter('all')}
@@ -202,9 +276,9 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
       </div>
       
       {/* Grid of Job Cards */}
-      {filteredJobs.length > 0 ? (
+      {sortedFilteredJobs.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredJobs.map((job) => (
+          {sortedFilteredJobs.map((job) => (
             <JobCard
               key={job.id}
               id={job.id}
@@ -213,6 +287,7 @@ const JobsPage = ({ jobs: initialJobs }: Props) => {
               department={job.department}
               status={job.status}
               createdAt={job.created_at}
+              isNewlyAdded={newlyAddedJobs.has(job.id)} // Only show NEW badge for truly new jobs
               onHold={handleHoldJob}
               onComplete={handleCompleteJob}
               onStart={handleStartJob}
