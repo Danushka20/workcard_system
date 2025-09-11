@@ -1,0 +1,36 @@
+import{j as e,L as c,r as d}from"./app-Cf-DtJq5.js";function x({isOpen:i,onClose:n,isCollapsed:r=!1,onToggle:s}){const a=window.location.pathname,l=[{name:"Dashboard",icon:"fas fa-tachometer-alt",href:"/",active:a==="/"||a.includes("/dashboard")},{name:"Jobs",icon:"fas fa-briefcase",href:"/jobs",active:a.includes("/jobs")},{name:"Reports",icon:"fas fa-file-alt",href:"/reports",active:a.includes("/reports")}],o=()=>{window.innerWidth<1024&&n&&n()};return e.jsxs(e.Fragment,{children:[i&&e.jsx("div",{className:"fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden",onClick:n}),e.jsxs("aside",{className:`
+          fixed inset-y-0 left-0 z-50 bg-white shadow-xl
+          transform transition-all duration-300 ease-in-out
+          lg:relative lg:z-0 lg:translate-x-0
+          ${i?"translate-x-0":"-translate-x-full"}
+          ${r?"lg:w-16":"lg:w-64"}
+          w-64
+        `,children:[e.jsxs("div",{className:"flex flex-col h-full",children:[e.jsxs("div",{className:`
+            p-4 border-b border-gray-200 
+            flex items-center 
+            ${r?"lg:justify-center":"justify-between"}
+          `,children:[e.jsxs("div",{className:`
+              flex items-center gap-3
+              ${r?"lg:justify-center":""}
+            `,children:[e.jsx("div",{className:"w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg",children:"WC"}),!r&&e.jsxs("div",{className:"lg:block",children:[e.jsx("h1",{className:"text-lg font-bold text-gray-800 leading-tight",children:"Work Card"}),e.jsx("p",{className:"text-xs text-gray-500",children:"Management System"})]})]}),s&&e.jsx("button",{className:"hidden lg:flex p-2 rounded-lg hover:bg-gray-100 focus:outline-none transition-colors",onClick:s,"aria-label":r?"Expand sidebar":"Collapse sidebar",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",className:`h-4 w-4 text-gray-600 transition-transform duration-300 ${r?"rotate-180":""}`,fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:e.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M15 19l-7-7 7-7"})})}),e.jsx("button",{className:"lg:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none transition-colors",onClick:n,"aria-label":"Close sidebar",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",className:"h-5 w-5 text-gray-600",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:e.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M6 18L18 6M6 6l12 12"})})})]}),e.jsxs("nav",{className:"flex-1 px-4 py-6 overflow-y-auto",children:[!r&&e.jsx("p",{className:"text-gray-500 text-xs uppercase tracking-wider mb-4 font-semibold",children:"Navigation"}),e.jsx("ul",{className:"space-y-2",children:l.map(t=>e.jsx("li",{children:e.jsxs(c,{href:t.href,onClick:o,className:`
+                      group flex items-center px-3 py-3 rounded-lg 
+                      text-sm font-medium transition-all duration-200
+                      ${t.active?"bg-blue-50 text-blue-700 shadow-sm border-l-4 border-blue-500":"text-gray-700 hover:bg-gray-50 hover:text-gray-900"}
+                      ${r?"lg:justify-center lg:px-2":""}
+                    `,title:r?t.name:"",children:[e.jsx("i",{className:`
+                      ${t.icon} 
+                      ${t.active?"text-blue-600":"text-gray-400 group-hover:text-gray-600"} 
+                      ${r?"text-lg":"w-5 text-center mr-3"}
+                      transition-colors duration-200
+                    `}),!r&&e.jsx("span",{className:"truncate",children:t.name}),!r&&t.active&&e.jsx("div",{className:"ml-auto",children:e.jsx("div",{className:"w-2 h-2 bg-blue-500 rounded-full"})})]})},t.name))})]}),e.jsx("div",{className:"p-4 border-t border-gray-200",children:e.jsxs("button",{className:`
+                group flex items-center px-3 py-3 rounded-lg
+                text-sm font-medium text-red-600 
+                bg-red-50 hover:bg-red-100
+                transition-all duration-200 w-full
+                ${r?"lg:justify-center lg:px-2":""}
+              `,title:r?"Logout":"",children:[e.jsx("i",{className:`
+                fas fa-sign-out-alt text-red-500
+                ${r?"text-lg":"w-5 text-center mr-3"}
+              `}),!r&&e.jsx("span",{children:"Logout"})]})})]}),s&&e.jsx("div",{className:"hidden lg:block absolute -right-3 top-1/2 transform -translate-y-1/2",children:e.jsx("button",{onClick:s,className:"w-6 h-12 bg-white border border-gray-200 rounded-r-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex items-center justify-center","aria-label":r?"Expand sidebar":"Collapse sidebar",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",className:`h-3 w-3 text-gray-400 transition-transform duration-300 ${r?"rotate-180":""}`,fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:e.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M15 19l-7-7 7-7"})})})})]})]})}function h({toggleSidebar:i,isSidebarCollapsed:n=!1,toggleSidebarCollapse:r}){return e.jsx("header",{className:"bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30",children:e.jsx("div",{className:"flex justify-between items-center px-4 py-3 lg:px-6",children:e.jsxs("div",{className:"flex items-center gap-4",children:[e.jsx("button",{className:"p-2 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none lg:hidden transition-colors",onClick:i,"aria-label":"Toggle sidebar",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",className:"h-6 w-6",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:e.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M4 6h16M4 12h16M4 18h16"})})}),e.jsxs("div",{className:"relative hidden sm:block",children:[e.jsx("div",{className:"absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",className:"h-5 w-5 text-gray-400",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor",children:e.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"})})}),e.jsx("input",{type:"text",placeholder:"Search...",className:`pl-10 pr-4 py-2 w-64 lg:w-80 rounded-lg border border-gray-300 text-sm
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         transition-all duration-200`})]})]})})})}function u({children:i}){const[n,r]=d.useState(!1),[s,a]=d.useState(!1);d.useEffect(()=>{const t=()=>{window.innerWidth>=1024&&r(!1),window.innerWidth<1280&&window.innerWidth>=1024?a(!0):window.innerWidth>=1280&&s&&a(!1)};return t(),window.addEventListener("resize",t),()=>window.removeEventListener("resize",t)},[s]);const l=()=>{r(!n)},o=()=>{a(!s)};return e.jsxs("div",{className:"flex h-screen bg-gray-100 font-sans",children:[e.jsx(x,{isOpen:n,onClose:()=>r(!1),isCollapsed:s,onToggle:o}),e.jsxs("div",{className:"flex-1 flex flex-col overflow-hidden transition-all duration-300",children:[e.jsx(h,{toggleSidebar:l,isSidebarCollapsed:s,toggleSidebarCollapse:o}),e.jsx("main",{className:"flex-1 overflow-x-hidden overflow-y-auto p-6",children:i})]})]})}export{u as D};
