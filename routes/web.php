@@ -6,26 +6,30 @@ use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// Dashboard Routes
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard/stats', [DashboardController::class, 'getStats'])->name('dashboard.stats');
 Route::get('/dashboard/export', [DashboardController::class, 'exportData'])->name('dashboard.export');
 
-// Jobs routes - using resourceful routing but include update route
-Route::resource('jobs', JobController::class)->except(['show', 'edit', 'destroy']);
+// Test route to check if routing works
+Route::get('/test', function () {
+    return response()->json(['message' => 'Routes are working!']);
+});
 
-// Add custom route for status updates
-Route::put('/jobs/{job}/status', [JobController::class, 'updateStatus'])->name('jobs.status.update');
+// Jobs Routes
+Route::group(['prefix' => 'jobs'], function () {
+    Route::get('/', [JobController::class, 'index'])->name('jobs.index');
+    Route::get('/create', [JobController::class, 'create'])->name('jobs.create');
+    Route::post('/', [JobController::class, 'store'])->name('jobs.store');
+    Route::get('/{job}', [JobController::class, 'show'])->name('jobs.show');
+    Route::get('/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+    Route::put('/{job}', [JobController::class, 'update'])->name('jobs.update');
+    Route::delete('/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::put('/{job}/status', [JobController::class, 'updateStatus'])->name('jobs.status.update');
+});
 
-// Reports routes
-Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
-
-// If you want to define all routes manually:
-/*
-Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
-Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
-Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
-Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
-Route::put('/jobs/{job}/status', [JobController::class, 'updateStatus'])->name('jobs.status.update');
-Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
-*/
+// Reports Routes
+Route::group(['prefix' => 'reports'], function () {
+    Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/{id}', [ReportController::class, 'show'])->name('reports.show');
+});
