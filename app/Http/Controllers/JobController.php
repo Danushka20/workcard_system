@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class JobController extends Controller
 {
@@ -20,7 +21,7 @@ class JobController extends Controller
     {
         $jobs = NewJob::with('materials')->get();
         
-        return inertia('Jobs/Index', [
+        return Inertia::render('Jobs/Index', [
             'jobs' => $jobs
         ]);
     }
@@ -30,7 +31,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return inertia('Jobs/Create');
+        return Inertia::render('Jobs/Create');
     }
 
     /**
@@ -156,7 +157,7 @@ class JobController extends Controller
     {
         $job->load('materials');
         
-        return inertia('Jobs/Show', [
+        return Inertia::render('Jobs/Show', [
             'job' => $job
         ]);
     }
@@ -168,7 +169,7 @@ class JobController extends Controller
     {
         $job->load('materials');
         
-        return inertia('Jobs/Edit', [
+        return Inertia::render('Jobs/Edit', [
             'job' => $job
         ]);
     }
