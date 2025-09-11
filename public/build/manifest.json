@@ -1,0 +1,98 @@
+{
+  "_DashboardLayout-BqY-66oT.js": {
+    "file": "assets/DashboardLayout-BqY-66oT.js",
+    "name": "DashboardLayout",
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-e2St36ZQ.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.tsx": {
+    "file": "assets/app-Cf-DtJq5.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/Dashboard/Index.tsx",
+      "resources/js/pages/Jobs/Create.tsx",
+      "resources/js/pages/Jobs/Index.tsx",
+      "resources/js/pages/Reports/Index.tsx",
+      "resources/js/pages/welcome.tsx"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  },
+  "resources/js/pages/Dashboard/Index.tsx": {
+    "file": "assets/Index-DOmuSYks.js",
+    "name": "Index",
+    "src": "resources/js/pages/Dashboard/Index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_DashboardLayout-BqY-66oT.js"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  },
+  "resources/js/pages/Jobs/Create.tsx": {
+    "file": "assets/Create-jf7hTjxw.js",
+    "name": "Create",
+    "src": "resources/js/pages/Jobs/Create.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_DashboardLayout-BqY-66oT.js"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  },
+  "resources/js/pages/Jobs/Index.tsx": {
+    "file": "assets/Index-DYXdbs73.js",
+    "name": "Index",
+    "src": "resources/js/pages/Jobs/Index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_DashboardLayout-BqY-66oT.js"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  },
+  "resources/js/pages/Reports/Index.tsx": {
+    "file": "assets/Index-CkbfVuRS.js",
+    "name": "Index",
+    "src": "resources/js/pages/Reports/Index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_DashboardLayout-BqY-66oT.js"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  },
+  "resources/js/pages/welcome.tsx": {
+    "file": "assets/welcome-CVvGiGaq.js",
+    "name": "welcome",
+    "src": "resources/js/pages/welcome.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_DashboardLayout-BqY-66oT.js"
+    ],
+    "css": [
+      "assets/app-e2St36ZQ.css"
+    ]
+  }
+}
