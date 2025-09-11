@@ -51,9 +51,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         onToggle={toggleSidebarCollapse}
       />
       
-      <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'
-      }`}>
+      <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300">
         <Header 
           toggleSidebar={toggleSidebar} 
           isSidebarCollapsed={sidebarCollapsed}
